@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Header from './Header';
 // import WarningIcon from '@mui/icons-material/Warning';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 export const Home: React.FC = () => {
 
@@ -33,10 +33,14 @@ export const Home: React.FC = () => {
     let value = e.target.value;
 
     setInputData({ ...inputData, [name]: value });
-  }
+  };
 
-  const handleOnSubmit = (e: any) => {
+  const [temp, setTemp] = useState({});
+  console.log(temp)
+
+  const handleOnSubmit = async (e: any) => {
     e.preventDefault();
+
     for (const property in inputData) {
       const value: string = inputData[property as keyof typeof inputData];
       if (value === "") {
@@ -49,8 +53,27 @@ export const Home: React.FC = () => {
       }
     }
 
+    try {
+      const res = await fetch("/members", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          inputData
+        })
+      });
+
+      const data = await res.json();
+
+      setTemp(data);
+
+    } catch (error) {
+      console.log(error);
+    }
 
   }
+
 
   return (
     <>
@@ -169,10 +192,10 @@ export const Home: React.FC = () => {
               <div className='font-bold text-xl'>Attack is Detected</div>
             </div> */}
 
-            <div>
+            {/* <div>
               <CheckCircleIcon style={{ color: 'rgba(2, 193, 0, 0.8)', fontSize: '300px' }} />
               <div className='font-bold text-xl tracking-wider'>No attack is Detected</div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
