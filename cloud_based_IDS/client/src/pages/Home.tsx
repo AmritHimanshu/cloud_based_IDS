@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
 import Header from './Header';
-// import WarningIcon from '@mui/icons-material/Warning';
-// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import WarningIcon from '@mui/icons-material/Warning';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PendingIcon from '@mui/icons-material/Pending';
 
 export const Home: React.FC = () => {
 
   const [inputData, setInputData] = useState({
     protocol_type: "tcp",
     service: "private",
-    flag: "SF",
-    src_bytes: "491",
+    flag: "S0",
+    src_bytes: "0",
     dst_bytes: "0",
     logged_in: "0",
-    count: "2",
-    srv_count: "2",
-    same_srv_rate: "1",
-    diff_srv_rate: "0",
-    dst_host_count: "150",
-    dst_host_srv_count: "25",
-    dst_host_same_srv_rate: "0.17",
-    dst_host_diff_srv_rate: "0.03",
-    dst_host_same_src_port_rate: "0.17",
+    count: "123",
+    srv_count: "6",
+    same_srv_rate: "0.05",
+    diff_srv_rate: "0.07",
+    dst_host_count: "255",
+    dst_host_srv_count: "26",
+    dst_host_same_srv_rate: "0.01",
+    dst_host_diff_srv_rate: "0.05",
+    dst_host_same_src_port_rate: "0",
     dst_host_srv_diff_host_rate: "0",
-    dst_host_serror_rate: "0",
-    dst_host_srv_serror_rate: "0",
-    dst_host_rerror_rate: "0.05",
+    dst_host_serror_rate: "1",
+    dst_host_srv_serror_rate: "1",
+    dst_host_rerror_rate: "0",
     dst_host_srv_rerror_rate: "0"
   });
 
@@ -35,8 +36,7 @@ export const Home: React.FC = () => {
     setInputData({ ...inputData, [name]: value });
   };
 
-  const [temp, setTemp] = useState('');
-  console.log(temp)
+  const [isAttackDetected, setIsAttackDetected] = useState('');
 
   const handleOnSubmit = async (e: any) => {
     e.preventDefault();
@@ -54,6 +54,7 @@ export const Home: React.FC = () => {
     }
 
     try {
+      setIsAttackDetected('detecting');
       const res = await fetch("/detectAttack", {
         method: 'POST',
         headers: {
@@ -66,9 +67,10 @@ export const Home: React.FC = () => {
 
       const data = await res.json();
 
-      setTemp(data.prediction[0]);
+      setIsAttackDetected(data.prediction[0]);
 
     } catch (error) {
+      setIsAttackDetected('');
       console.log(error);
     }
 
@@ -187,15 +189,26 @@ export const Home: React.FC = () => {
 
         <div className='w-[60%] relative'>
           <div className='sticky top-[28vh] text-center'>
-            {/* <div>
-              <WarningIcon style={{ color: 'red', fontSize: '300px' }} />
-              <div className='font-bold text-xl'>Attack is Detected</div>
-            </div> */}
+            {isAttackDetected === 'anomaly' &&
+              <div>
+                <WarningIcon style={{ color: 'red', fontSize: '300px' }} className='animate-pulse' />
+                <div className='font-bold text-xl text-red-600'>Attack is Detected</div>
+              </div>
+            }
 
-            {/* <div>
-              <CheckCircleIcon style={{ color: 'rgba(2, 193, 0, 0.8)', fontSize: '300px' }} />
-              <div className='font-bold text-xl tracking-wider'>No attack is Detected</div>
-            </div> */}
+            {isAttackDetected === 'detecting' &&
+              <div>
+                <PendingIcon style={{ color: 'orange', fontSize: '200px', marginTop:'50px' }} className='animate-bounce'/>
+                <div className='font-bold text-xl'>Detecting...</div>
+              </div>
+            }
+
+            {isAttackDetected === 'normal' &&
+              <div>
+                <CheckCircleIcon style={{ color: 'rgba(2, 193, 0, 0.8)', fontSize: '300px' }} />
+                <div className='font-bold text-xl tracking-wider'>No attack is Detected</div>
+              </div>
+            }
           </div>
         </div>
       </div>
