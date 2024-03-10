@@ -6,26 +6,26 @@ import Header from './Header';
 export const Home: React.FC = () => {
 
   const [inputData, setInputData] = useState({
-    protocol_type: "",
-    service: "",
-    flag: "",
-    src_bytes: "",
-    dst_bytes: "",
-    logged_in: "",
-    count: "",
-    srv_count: "",
-    same_srv_rate: "",
-    diff_srv_rate: "",
-    dst_host_count: "",
-    dst_host_srv_count: "",
-    dst_host_same_srv_rate: "",
-    dst_host_diff_srv_rate: "",
-    dst_host_same_src_port_rate: "",
-    dst_host_srv_diff_host_rate: "",
-    dst_host_serror_rate: "",
-    dst_host_srv_serror_rate: "",
-    dst_host_rerror_rate: "",
-    dst_host_srv_rerror_rate: ""
+    protocol_type: "tcp",
+    service: "private",
+    flag: "SF",
+    src_bytes: "491",
+    dst_bytes: "0",
+    logged_in: "0",
+    count: "2",
+    srv_count: "2",
+    same_srv_rate: "1",
+    diff_srv_rate: "0",
+    dst_host_count: "150",
+    dst_host_srv_count: "25",
+    dst_host_same_srv_rate: "0.17",
+    dst_host_diff_srv_rate: "0.03",
+    dst_host_same_src_port_rate: "0.17",
+    dst_host_srv_diff_host_rate: "0",
+    dst_host_serror_rate: "0",
+    dst_host_srv_serror_rate: "0",
+    dst_host_rerror_rate: "0.05",
+    dst_host_srv_rerror_rate: "0"
   });
 
   const handleOnChange = (e: any) => {
@@ -35,7 +35,7 @@ export const Home: React.FC = () => {
     setInputData({ ...inputData, [name]: value });
   };
 
-  const [temp, setTemp] = useState({});
+  const [temp, setTemp] = useState('');
   console.log(temp)
 
   const handleOnSubmit = async (e: any) => {
@@ -47,14 +47,14 @@ export const Home: React.FC = () => {
         return window.alert(`${property} is empty`);
       }
 
-      if (!/^\d*$/.test(value)) {
-        setInputData({ ...inputData, [property]: "" });
-        return window.alert(`Enter number in ${property}`);
-      }
+      // if (!/^\d*$/.test(value) && (property !== 'protocol_type' && property !== 'service' && property !== 'flag')) {
+      //   setInputData({ ...inputData, [property]: "" });
+      //   return window.alert(`Enter number in ${property}`);
+      // }
     }
 
     try {
-      const res = await fetch("/members", {
+      const res = await fetch("/detectAttack", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -66,7 +66,7 @@ export const Home: React.FC = () => {
 
       const data = await res.json();
 
-      setTemp(data);
+      setTemp(data.prediction[0]);
 
     } catch (error) {
       console.log(error);
