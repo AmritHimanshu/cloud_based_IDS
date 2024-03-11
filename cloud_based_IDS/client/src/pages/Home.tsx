@@ -7,26 +7,49 @@ import CloseIcon from '@mui/icons-material/Close';
 
 export const Home: React.FC = () => {
 
+  // const [inputData, setInputData] = useState({
+  //   protocol_type: "tcp",
+  //   service: "private",
+  //   flag: "S0",
+  //   src_bytes: "0",
+  //   dst_bytes: "0",
+  //   logged_in: "0",
+  //   count: "123",
+  //   srv_count: "6",
+  //   same_srv_rate: "0.05",
+  //   diff_srv_rate: "0.07",
+  //   dst_host_count: "255",
+  //   dst_host_srv_count: "26",
+  //   dst_host_same_srv_rate: "0.01",
+  //   dst_host_diff_srv_rate: "0.05",
+  //   dst_host_same_src_port_rate: "0",
+  //   dst_host_srv_diff_host_rate: "0",
+  //   dst_host_serror_rate: "1",
+  //   dst_host_srv_serror_rate: "1",
+  //   dst_host_rerror_rate: "0",
+  //   dst_host_srv_rerror_rate: "0"
+  // });
+
   const [inputData, setInputData] = useState({
     protocol_type: "tcp",
-    service: "private",
-    flag: "S0",
-    src_bytes: "0",
+    service: "ftp_data",
+    flag: "SF",
+    src_bytes: "491",
     dst_bytes: "0",
     logged_in: "0",
-    count: "123",
-    srv_count: "6",
-    same_srv_rate: "0.05",
-    diff_srv_rate: "0.07",
-    dst_host_count: "255",
-    dst_host_srv_count: "26",
-    dst_host_same_srv_rate: "0.01",
-    dst_host_diff_srv_rate: "0.05",
-    dst_host_same_src_port_rate: "0",
+    count: "2",
+    srv_count: "2",
+    same_srv_rate: "1",
+    diff_srv_rate: "0",
+    dst_host_count: "150",
+    dst_host_srv_count: "25",
+    dst_host_same_srv_rate: "0.17",
+    dst_host_diff_srv_rate: "0.03",
+    dst_host_same_src_port_rate: "0.17",
     dst_host_srv_diff_host_rate: "0",
-    dst_host_serror_rate: "1",
-    dst_host_srv_serror_rate: "1",
-    dst_host_rerror_rate: "0",
+    dst_host_serror_rate: "0",
+    dst_host_srv_serror_rate: "0",
+    dst_host_rerror_rate: "0.05",
     dst_host_srv_rerror_rate: "0"
   });
 
@@ -103,7 +126,7 @@ export const Home: React.FC = () => {
 
             {isAttackDetected === 'normal' &&
               <div className='bg-green-500 text-white p-5 font-bold flex items-center justify-between rounded-sm'>
-                <div className='flex items-center space-x-6 animate-pulse'>
+                <div className='flex items-center space-x-6'>
                   <CheckCircleIcon />
                   <div>No Attack is Detected</div>
                 </div>
