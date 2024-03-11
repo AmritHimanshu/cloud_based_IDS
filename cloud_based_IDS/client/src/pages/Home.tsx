@@ -80,7 +80,7 @@ export const Home: React.FC = () => {
   return (
     <>
       <Header />
-      <div className='flex justify-between'>
+      <div className='flex justify-between '>
         <div className='p-10'>
           <form className='space-y-5'>
             <div>
