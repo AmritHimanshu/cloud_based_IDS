@@ -42,8 +42,8 @@ def members():
 
         # Define possible classes for each feature
         protocol_type_classes = ['tcp', 'udp', 'icmp']
-        service_classes = ['private', 'public', 'other']  # Replace with actual classes
-        flag_classes = ['REJ', 'SF', 'OTH', 'RSTO','S0','RSTR']  # Replace with actual classes
+        service_classes = ['private', 'public', 'other']
+        flag_classes = ['REJ', 'SF', 'OTH', 'RSTO','S0','RSTR']
 
         # Initialize LabelEncoders with predefined classes
         label_encoder_protocol_type = LabelEncoder()
